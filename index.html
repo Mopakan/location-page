@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>موقعیت</title>
+</head>
+
+<body>
+  <h2>برای ادامه، موقعیت مکانی را تأیید کنید.</h2>
+
+  <button onclick="getLocation()">دریافت موقعیت</button>
+
+  <p id="result"></p>
+
+  <script>
+    function getLocation() {
+      const result = document.getElementById("result");
+
+      if (!navigator.geolocation) {
+        result.innerText = "مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.";
+        return;
+      }
+
+      result.innerText = "در حال دریافت موقعیت...";
+
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          result.innerHTML =
+            "موقعیت دریافت شد.<br><br>" +
+            '<a target="_blank" href="https://www.google.com/maps?q=' + lat + ',' + lon + '">' +
+            'باز کردن موقعیت در Google Maps' +
+            '</a>';
+        },
+
+        function(error) {
+          result.innerText = "خطا: " + error.message;
+        },
+
+        {
+          enableHighAccuracy: true,
+          timeout: 10000
+        }
+      );
+    }
+  </script>
+</body>
+</html>
