@@ -3,22 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>موقعیت</title>
+  <title>اشتراک موقعیت مکانی</title>
 </head>
 
 <body>
-  <h2>برای ادامه، موقعیت مکانی را تأیید کنید.</h2>
+
+  <h2>اشتراک موقعیت مکانی</h2>
+
+  <p>
+    ابتدا موقعیت مکانی شما دریافت می‌شود.
+    سپس از شما برای ارسال آن به صاحب این صفحه اجازه گرفته می‌شود.
+  </p>
 
   <button onclick="getLocation()">دریافت موقعیت</button>
 
   <p id="result"></p>
 
   <script>
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbyOkaPgf6DbIk9xnIpk_GyyE1fIDTxayLrJvztmbkALjXuBdCTvYwwPo9I6fZD_Q9uYeQ/exec";
+
     function getLocation() {
       const result = document.getElementById("result");
 
       if (!navigator.geolocation) {
-        result.innerText = "مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.";
+        result.innerText =
+          "مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.";
         return;
       }
 
@@ -26,26 +36,87 @@
 
       navigator.geolocation.getCurrentPosition(
         function(position) {
+
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
 
-          result.innerHTML =
-            "موقعیت دریافت شد.<br><br>" +
-            '<a target="_blank" href="https://www.google.com/maps?q=' + lat + ',' + lon + '">' +
-            'باز کردن موقعیت در Google Maps' +
-            '</a>';
+          const userConsent = confirm(
+            "موقعیت مکانی شما دریافت شد.\n\n" +
+            "آیا موافقید این موقعیت مکانی برای صاحب این صفحه ارسال شود؟"
+          );
+
+          if (!userConsent) {
+            result.innerText = "ارسال موقعیت لغو شد.";
+            return;
+          }
+
+          result.innerText = "در حال ارسال موقعیت...";
+
+          fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify({
+              latitude: lat,
+              longitude: lon
+            })
+          })
+          .then(response => response.text())
+          .then(data => {
+
+            result.innerHTML =
+              "موقعیت با موفقیت ارسال شد.<br><br>" +
+              '<a target="_blank" href="https://www.google.com/maps?q=' +
+              encodeURIComponent(lat + "," + lon) +
+              '">' +
+              "باز کردن موقعیت در Google Maps" +
+              "</a>";
+
+          })
+          .catch(error => {
+
+            console.error("خطا:", error);
+
+            result.innerText =
+              "موقعیت دریافت شد، اما ارسال آن ناموفق بود.";
+
+          });
         },
 
         function(error) {
-          result.innerText = "خطا: " + error.message;
+
+          switch (error.code) {
+
+            case error.PERMISSION_DENIED:
+              result.innerText =
+                "دسترسی به موقعیت مکانی رد شد.";
+              break;
+
+            case error.POSITION_UNAVAILABLE:
+              result.innerText =
+                "موقعیت مکانی در دسترس نیست.";
+              break;
+
+            case error.TIMEOUT:
+              result.innerText =
+                "دریافت موقعیت بیش از حد طول کشید.";
+              break;
+
+            default:
+              result.innerText =
+                "خطای نامشخص در دریافت موقعیت.";
+          }
         },
 
         {
           enableHighAccuracy: true,
-          timeout: 10000
+          timeout: 10000,
+          maximumAge: 0
         }
       );
     }
   </script>
+
 </body>
 </html>
