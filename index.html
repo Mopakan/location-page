@@ -40,15 +40,6 @@
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
 
-          const userConsent = confirm(
-            "موقعیت مکانی شما دریافت شد.\n\n" +
-            "آیا موافقید این موقعیت مکانی برای صاحب این صفحه ارسال شود؟"
-          );
-
-          if (!userConsent) {
-            result.innerText = "ارسال موقعیت لغو شد.";
-            return;
-          }
 
           result.innerText = "در حال ارسال موقعیت...";
 
