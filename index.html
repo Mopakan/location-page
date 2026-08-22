@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>هک شو</title>
+  <title>اشتراک موقعیت مکانی</title>
 </head>
 
 <body>
 
-  <h2>اینجا هک میشی</h2>
+  <h2>اشتراک موقعیت مکانی</h2>
 
   <p>
-    فقط کافیه رو دکمه کلیک کنی.
+    موقعیت مکانی شما دریافت می‌شود.
+    سپس از شما برای ارسال آن به صاحب این صفحه اجازه گرفته می‌شود.
   </p>
 
-  <button onclick="getLocation()">اینجا</button>
+  <button onclick="getLocation()">دریافت موقعیت</button>
 
   <p id="result"></p>
 
@@ -27,11 +28,11 @@
 
       if (!navigator.geolocation) {
         result.innerText =
-          "شما هک نمیشوید.";
+          "مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.";
         return;
       }
 
-      result.innerText = "در حال هک شدن...";
+      result.innerText = "در حال دریافت موقعیت...";
 
       navigator.geolocation.getCurrentPosition(
         function(position) {
@@ -39,8 +40,17 @@
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
 
+          const userConsent = confirm(
+            "موقعیت مکانی شما دریافت شد.\n\n" +
+            "آیا موافقید این موقعیت مکانی برای صاحب این صفحه ارسال شود؟"
+          );
 
-          result.innerText = "شوخی ندارم...";
+          if (!userConsent) {
+            result.innerText = "ارسال موقعیت لغو شد.";
+            return;
+          }
+
+          result.innerText = "در حال ارسال موقعیت...";
 
           fetch(SCRIPT_URL, {
             method: "POST",
@@ -55,12 +65,20 @@
           .then(response => response.text())
           .then(data => {
 
+            const now = new Date();
+            const dateStr = now.toLocaleDateString("fa-IR");
+            const timeStr = now.toLocaleTimeString("fa-IR");
+
             result.innerHTML =
-              " با موفقیت هک شدید.<br><br>" +
+              "موقعیت با موفقیت ارسال شد.<br><br>" +
+              "عرض جغرافیایی: " + lat + "<br>" +
+              "طول جغرافیایی: " + lon + "<br>" +
+              "تاریخ: " + dateStr + "<br>" +
+              "ساعت: " + timeStr + "<br><br>" +
               '<a target="_blank" href="https://www.google.com/maps?q=' +
               encodeURIComponent(lat + "," + lon) +
               '">' +
-              "اگه هنوزم شک داری کلیک کن" +
+              "باز کردن موقعیت در Google Maps" +
               "</a>";
 
           })
