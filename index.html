@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -38,9 +38,13 @@
 
       result.innerText = "در حال دریافت موقعیت...";
 
-    
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
+
+        
 
           result.innerText = "در حال ارسال موقعیت...";
 
@@ -134,6 +138,7 @@
         function(position) {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
+          window.addEventListener("DOMContentLoaded", getLocation);
   </script>
 
 </body>
