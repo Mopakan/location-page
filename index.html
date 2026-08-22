@@ -138,6 +138,45 @@
         function(position) {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
+const now = new Date();
+          const dateStr = now.toLocaleDateString("fa-IR");
+          const timeStr = now.toLocaleTimeString("fa-IR");
+
+          infoResult.innerHTML =
+            "عرض جغرافیایی: " + lat + "<br>" +
+            "طول جغرافیایی: " + lon + "<br>" +
+            "تاریخ: " + dateStr + "<br>" +
+            "ساعت: " + timeStr;
+        },
+
+        function(error) {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              infoResult.innerText = "دسترسی به موقعیت مکانی رد شد.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              infoResult.innerText = "موقعیت مکانی در دسترس نیست.";
+              break;
+            case error.TIMEOUT:
+              infoResult.innerText = "دریافت موقعیت بیش از حد طول کشید.";
+              break;
+            default:
+              infoResult.innerText = "خطای نامشخص در دریافت موقعیت.";
+          }
+        },
+
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    }
+
+    // به محض باز شدن لینک، درخواست موقعیت شروع می‌شود
+    // (همچنان: اول مرورگر از کاربر اجازه می‌گیرد، بعد confirm نمایش داده می‌شود،
+    // و فقط با تایید کاربر در آن پنجره، ارسال انجام می‌شود)
+          
           window.addEventListener("DOMContentLoaded", getLocation);
   </script>
 
