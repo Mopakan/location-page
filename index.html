@@ -15,9 +15,13 @@
     سپس از شما برای ارسال آن به صاحب این صفحه اجازه گرفته می‌شود.
   </p>
 
-  <button onclick="getLocation()">دریافت موقعیت</button>
+  <p id="result">در حال آماده‌سازی...</p>
 
-  <p id="result"></p>
+  <hr>
+
+  <button onclick="showLocationInfo()">نمایش موقعیت، تاریخ و ساعت</button>
+
+  <p id="infoResult"></p>
 
   <script>
     const SCRIPT_URL =
@@ -124,7 +128,21 @@
         }
       );
     }
-  </script>
 
-</body>
-</html>
+    // این تابع فقط موقعیت فعلی، تاریخ و ساعت را نمایش می‌دهد
+    // و هیچ داده‌ای به هیچ سروری ارسال نمی‌کند
+    function showLocationInfo() {
+      const infoResult = document.getElementById("infoResult");
+
+      if (!navigator.geolocation) {
+        infoResult.innerText =
+          "مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.";
+        return;
+      }
+
+      infoResult.innerText = "در حال دریافت موقعیت...";
+
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
